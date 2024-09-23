@@ -1,3 +1,63 @@
 h1{
-    color: red;
+    padding-top: 50px;
+}
+
+.home-pic{
+    border-radius: 8px;
+    border: solid 1px black;
+}
+
+.home-col{
+    padding-top: 32px;
+    padding-bottom: 32px;
+    overflow: hidden;
+}
+.home-col h2{
+    padding-top: 115px;
+}
+
+.home-col p {
+    padding-top: 20px;
+}
+
+h2{
+    text-align: center;
+}
+
+p{
+    text-align: center;
+}
+
+.banner-col{
+    width:100%;
+    height: 375px;
+    position: relative;
+    overflow: hidden;
+    padding-top: 40px;
+    padding-bottom: 50px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.banner-pic{
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    right: -9999px;
+    bottom: -9999px;
+    margin: auto;
+}
+
+.action-statement {
+    padding-top: 75px;
+    color: white;
+    position: relative;
+    z-index: 999;
+}
+
+.action-button{
+    z-index: 998;
+    position: relative;
+    margin-left: 45%;
+    margin-top: 26px;
 }
