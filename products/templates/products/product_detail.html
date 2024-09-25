@@ -28,7 +28,32 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Reviews Section -->
+<div class="reviews-section">
+    <h4>Reviews</h4>
+    {% for review in reviews %}
+        <div class="review">
+            <p><strong>{% if review.user %}{{ review.user.username }} (Verified){% else %}Anonymous (Unverified){% endif %}</strong></p>
+            <p>{{ review.review_text }}</p>
+            <p><small>Posted on: {{ review.created_at }}</small></p>
+            {% if review.user == request.user %}
+                <a href="{% url 'edit_review' review.id %}">Edit</a>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No reviews yet.</p>
+    {% endfor %}
+</div>
+
+<!-- Add Review Form -->
+<h4>Add a Review</h4>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit Review</button>
+</form>
+
+<!-- Modal for Product Image -->
 <div class="modal fade" id="imageDetailModal" tabindex="-1" role="dialog" aria-labelledby="imageDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
