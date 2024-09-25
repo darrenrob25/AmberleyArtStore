@@ -68,3 +68,18 @@ p{
     margin-left: 45%;
     margin-top: 26px;
 }
+
+.product-image-container {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.product-image {
+    width: 100%; 
+    height: 100%;
+    object-fit: cover;
+}
