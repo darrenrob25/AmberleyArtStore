@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from .models import Product, Review
 from .forms import ReviewForm
 
@@ -20,6 +21,7 @@ def product_detail(request, product_id):
             if request.user.is_authenticated:
                 review.user = request.user
             review.save()
+            messages.success(request, "Your review has been added successfully!")
             return redirect('product_detail', product_id=product.id)  # Redirect to see the new review
     else:
         form = ReviewForm()
@@ -34,7 +36,6 @@ def product_detail(request, product_id):
 
     return render(request, 'products/product_detail.html', context)
 
-
 def edit_review(request, review_id):
     """ A view to edit existing reviews """
     review = get_object_or_404(Review, pk=review_id)
@@ -44,6 +45,7 @@ def edit_review(request, review_id):
         form = ReviewForm(request.POST, instance=review)  # Bind the form to the existing review
         if form.is_valid():
             form.save()
+            messages.success(request, "Your review has been updated successfully!")
             return redirect('product_detail', product_id=product.id)  # Redirect to the product detail page
     else:
         form = ReviewForm(instance=review)  # Populate the form with the review's current data
@@ -54,3 +56,21 @@ def edit_review(request, review_id):
     }
 
     return render(request, 'products/edit_review.html', context)  # Create a template for this
+
+def delete_review(request, review_id):
+    """ A view to delete a review """
+    review = get_object_or_404(Review, pk=review_id)
+
+    # Check if the user is authenticated
+    if not request.user.is_authenticated:
+        messages.error(request, "You must be logged in to delete a review.")
+        return redirect('product_detail', product_id=review.product.id)
+
+    # Check if the user is the owner of the review or a staff member
+    if review.user == request.user or request.user.is_staff:
+        review.delete()
+        messages.success(request, "Review deleted successfully.")
+    else:
+        messages.error(request, "You do not have permission to delete this review.")
+
+    return redirect('product_detail', product_id=review.product.id)

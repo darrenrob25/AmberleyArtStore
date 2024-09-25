@@ -83,8 +83,14 @@
         </div>
       </nav>
       {% if messages %}
-        <div class="popup-container"></div>
-      {% endif %}
+      <div class="popup-container" id="popup-container">
+          {% for message in messages %}
+              <div class="popup-message {% if message.tags %}{{ message.tags }}{% endif %}">
+                  {{ message }}
+              </div>
+          {% endfor %}
+      </div>
+  {% endif %}
 
       {% block page_heading %}
       {% endblock %}
