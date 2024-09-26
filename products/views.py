@@ -4,10 +4,27 @@ from .models import Product, Review
 from .forms import ReviewForm
 
 def all_products(request):
-    """ A view to show all products """
-    products = Product.objects.all()
-    context = {'products': products}
+    """ A view to show all products with category filtering """
+    # Get distinct categories from the Product model
+    categories = Product.objects.values_list('category', flat=True).distinct()
+
+    # Get the selected category from the GET request
+    selected_category = request.GET.get('category')
+
+    # If a category is selected, filter products by that category
+    if selected_category:
+        products = Product.objects.filter(category=selected_category)
+    else:
+        products = Product.objects.all()
+
+    context = {
+        'products': products,
+        'categories': categories,
+        'selected_category': selected_category,
+    }
+
     return render(request, 'products/products.html', context)
+    
 
 def product_detail(request, product_id):
     """ A view to show individual products with reviews """
