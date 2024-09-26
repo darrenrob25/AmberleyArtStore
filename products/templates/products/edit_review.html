@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <h2>Edit Review for {{ product.name }}</h2>
-    <form method="POST">
+<div class="edit-review-container">
+    <h2 class="edit-review-heading">Edit Review for {{ product.name }}</h2>
+    <form method="POST" class="edit-review-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Update Review</button>
+        <button type="submit" class="btn btn-update-review">Update Review</button>
+        <a href="{% url 'product_detail' product.id %}" class="btn btn-cancel-review">Cancel</a>
     </form>
-    <a href="{% url 'product_detail' product.id %}" class="btn btn-secondary">Cancel</a>
 </div>
 {% endblock %}
