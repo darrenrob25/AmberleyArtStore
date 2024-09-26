@@ -1,30 +1,29 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Product, Review
+from .models import Product, Review, Category
 from .forms import ReviewForm
 
 def all_products(request):
     """ A view to show all products with category filtering """
-    # Get distinct categories from the Product model
-    categories = Product.objects.values_list('category', flat=True).distinct()
+    categories = Category.objects.all()  # Fetch all categories
 
     # Get the selected category from the GET request
     selected_category = request.GET.get('category')
 
-    # If a category is selected, filter products by that category
-    if selected_category:
-        products = Product.objects.filter(category=selected_category)
-    else:
+    # If no category is selected or if "all" is selected, display all products
+    if not selected_category or selected_category == 'all':
         products = Product.objects.all()
+    else:
+        # Filter the products by the selected friendly category name
+        products = Product.objects.filter(category__friendly_name=selected_category)
 
     context = {
         'products': products,
         'categories': categories,
-        'selected_category': selected_category,
+        'selected_category': selected_category,  # Pass the selected category to the template
     }
 
     return render(request, 'products/products.html', context)
-    
 
 def product_detail(request, product_id):
     """ A view to show individual products with reviews """
