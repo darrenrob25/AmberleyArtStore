@@ -49,4 +49,29 @@ Below are the designs that were used as a reference point to build the project, 
 
 ***
 
-## Database Schemas
+### Database Schema
+![Image of database schema](https://github.com/darrenrob25/AmberleyArtStore/blob/main/media/models-plan.png)
+
+
+***
+
+### Colour Choices
+
+![Image of colour schema]()
+
+***
+
+### Font Selection
+Google fonts was used for all fonts on the website, I chose google fonts as it is simple and provides clean refined fonts.
+
+#### Monofett
+Used for the "logo" or main title on the navbar
+![Image of colour schema]()
+
+
+#### Red Hat Mono
+Used for the rest of the text throughout the website
+![Image of colour schema]()
+***
+
+### Features
