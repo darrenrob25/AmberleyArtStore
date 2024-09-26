@@ -34,3 +34,19 @@ Ultimately the goal of the app is to create a secure and easy way to browse artw
 ## Design
 ### Wireframes
 Below are the designs that were used as a reference point to build the project, these designs were build while keeping in mind the needs of the above used stories.
+
+#### Home Page
+![Image of homepage.html](https://github.com/darrenrob25/AmberleyArtStore/blob/main/media/Home-Page.png)
+
+#### Store Page
+![Image of homepage.html](https://github.com/darrenrob25/AmberleyArtStore/blob/main/media/store-page.png)
+
+#### Item Page
+![Image of homepage.html](https://github.com/darrenrob25/AmberleyArtStore/blob/main/media/Item-page.png)
+
+#### Order Page
+![Image of homepage.html](https://github.com/darrenrob25/AmberleyArtStore/blob/main/media/order-page.png)
+
+***
+
+## Database Schemas
