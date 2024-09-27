@@ -2,4 +2,30 @@
 {% load static %}
 
 {% block content %}
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col">
+                <hr class="my-3">
+                <h2 class="text-center mb-4">Shopping Basket</h2>
+                <hr class="my-3">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {% if basket_items %}
+                    <div class="table-responsive rounded shadow-sm p-3">
+                        <!-- Add the content for displaying basket items here -->
+                    </div>
+                {% else %}
+                    <p class="text-center lead mb-5">Your basket is currently empty.</p>
+                    <div class="d-flex justify-content-center">
+                        <a href="{% url 'products' %}" class="btn btn-outline-primary btn-lg">
+                            Continue Shopping
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
