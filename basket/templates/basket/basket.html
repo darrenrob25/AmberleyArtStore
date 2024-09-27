@@ -15,7 +15,65 @@
             <div class="col">
                 {% if basket_items %}
                     <div class="table-responsive rounded shadow-sm p-3">
-                        {{ basket_items }}
+                        <table class="table table-sm table-borderless">
+                            <thead class="text-black">
+                                <tr>
+                                    <th scope="col">Product Info</th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Qty</th>
+                                    <th scope="col">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in basket_items %}
+                                    <tr>
+                                        <td class="p-3 w-25">
+                                            <img class="img-fluid rounded" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                        </td>
+                                        <td class="py-3">
+                                            <p class="my-0"><strong>{{ item.product.name }}</strong></p>
+                                            <p class="my-0 small text-muted">SKU: {{ item.product.sku|upper }}</p>
+                                        </td>
+                                        <td class="py-3">
+                                            <p class="my-0">£{{ item.product.price|floatformat:2 }}</p>
+                                        </td>
+                                        <td class="py-3 w-25">
+                                            <p class="my-0">{{ item.quantity }}</p>
+                                        </td>
+                                        <td class="py-3">
+                                            <p class="my-0">£{{ item.product.price|floatformat:2 }}</p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="5" class="pt-5 text-right">
+                                        <h6><strong>Basket Total: £{{ total_amount|floatformat:2 }}</strong></h6>
+                                        <h6>Delivery: £{{ delivery_cost|floatformat:2 }}</h6>
+                                        <h4 class="mt-4"><strong>Grand Total: £{{ grand_total|floatformat:2 }}</strong></h4>
+                                        {% if amount_needed_for_free_delivery > 0 %}
+                                            <p class="mb-1 text-danger">
+                                                You could get free delivery by spending just <strong>£{{ amount_needed_for_free_delivery|floatformat:2 }}</strong> more!
+                                            </p>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="text-right">
+                                        <a href="{% url 'products' %}" class="btn btn-warning btn-lg">
+                                            <span class="icon">
+                                            </span>
+                                            <span class="text-uppercase">Keep Shopping</span>
+                                        </a>
+                                        <a href="" class="btn btn-success btn-lg">
+                                            <span class="text-uppercase">Secure Checkout</span>
+                                            <span class="icon">
+                                            </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 {% else %}
                     <p class="text-center lead mb-5">Your basket is currently empty.</p>
