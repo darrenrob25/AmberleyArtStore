@@ -39,21 +39,43 @@
                                             <p class="my-0">£{{ item.product.price|floatformat:2 }}</p>
                                         </td>
                                         <td class="py-3 w-25">
-                                            <form class="form update-form" method="POST" action="" >
+                                            <form class="form update-form" method="POST" action="{% url 'adjust_basket' item.item_id %}">
                                                 {% csrf_token %}
                                                 <div class="form-group">
                                                     <div class="d-flex justify-content-center input-group">
                                                         <div class="form-group w-100">
                                                             <label for="id_qty_{{ item.item_id }}" class="d-none">Quantity:</label>
                                                             <input 
-                                                                class="form-control qty_input border-primary" type="number" name="quantity" 
-                                                                value="{{ item.quantity }}" min="1" max="99" data-item_id="{{ item.item_id }}" id="id_qty_{{ item.item_id }}">
+                                                                class="form-control qty_input border-primary" 
+                                                                type="number" 
+                                                                name="quantity" 
+                                                                value="{{ item.quantity }}" 
+                                                                min="1" max="99" 
+                                                                data-item_id="{{ item.item_id }}" 
+                                                                id="id_qty_{{ item.item_id }}">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                </form>
-                                                <a class="update-link text-info col text-center"><small>Update</small></a>
-                                                <a class="remove-link text-danger text-info col text-center" id="{{ item.item_id }}"><small>Remove</small></a>
+                                            
+                                                <!-- Update and Remove Buttons -->
+                                                <div class="d-flex justify-content-center">
+                                                    <!-- Update Button -->
+                                                    <button type="submit" class="btn btn-link text-info col text-center" name="update">
+                                                        <small>Update</small>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            
+                                            <!-- Remove Button Form -->
+                                            <form method="POST" action="{% url 'remove_from_basket' item.item_id %}">
+                                                {% csrf_token %}
+                                                <div class="d-flex justify-content-center">
+                                                    <!-- Remove Button -->
+                                                    <button type="submit" class="btn btn-link text-danger col text-center">
+                                                        <small>Remove</small>
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </td>
                                         <td class="py-3">
                                             <p class="my-0">£{{ item.product.price|floatformat:2 }}</p>
@@ -105,21 +127,12 @@
 {% block postloadjs %}
 {{ block.super }}
 <script>
-    $(document).ready(function() {
-        // Update quantity on click
-        $('.update-link').click(function() {
-            $(this).prev('.update-form').submit();
-        });
+$(document).ready(function() {
+    // Update quantity on click
+    $('.update-link').click(function() {
+        $(this).prev('.update-form').submit();
+    }); // Added closing parenthesis here
+});
 
-        // Remove items on click
-        $('.remove-link').click(function() {
-            var itemId = this.id.split('remove_')[1]; // Get item ID from the link's ID
-            $.post(`/basket/remove/${itemId}`, {
-                'csrfmiddlewaretoken': "{{ csrf_token }}"
-            }).done(function() {
-                location.reload();
-            });
-        });
-    });
 </script>
 {% endblock %}
