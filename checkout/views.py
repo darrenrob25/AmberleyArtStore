@@ -5,6 +5,9 @@ from .forms import PurchaseOrderForm
 
 def checkout(request):
     basket = request.session.get('basket', {})
+    
+    # Debugging output for basket structure
+    print("Basket Structure:", basket)  # Check the current contents of the basket
 
     if not basket:
         messages.error(request, "Your shopping basket is currently empty.")
@@ -12,8 +15,15 @@ def checkout(request):
 
     purchase_order_form = PurchaseOrderForm()
 
-    product_count = sum(item['quantity'] for item in basket.values())
-    subtotal = sum(item['price'] * item['quantity'] for item in basket.values())
+    try:
+        product_count = sum(item['quantity'] for item in basket.values())
+        subtotal = sum(item['price'] * item['quantity'] for item in basket.values())
+    except (KeyError, TypeError) as e:
+        messages.error(request, "An error occurred while calculating your order. Please check your basket items.")
+        print("Basket contents:", basket)  # Print the contents of the basket
+        print("Error during calculations:", str(e))  # Log the specific error
+        return redirect(reverse('products'))
+
     shipping = 0
     total_amount = subtotal + shipping
 
