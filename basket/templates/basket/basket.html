@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
 
 {% block content %}
     <div class="container mb-4">
@@ -78,7 +79,7 @@
                                             </form>
                                         </td>
                                         <td class="py-3">
-                                            <p class="my-0">£{{ item.product.price|floatformat:2 }}</p>
+                                            <p class="my-0">Total: £{{ item.product.price|multiply:item.quantity|floatformat:2 }}</p>
                                         </td>
                                     </tr>
                                 {% endfor %}
