@@ -33,7 +33,7 @@
                             <p class="my-0 small text-muted">Quantity: {{ item.quantity }}</p>
                         </div>
                         <div class="col-3 text-right">
-                            <p class="my-0 small text-muted">${{ item.product.price|calc_subtotal:item.quantity }}</p>
+                            <p class="my-0 small text-muted">£{{ item.product.price|calc_subtotal:item.quantity }}</p>
                         </div>
                     </div>
                 {% endfor %}
@@ -45,9 +45,9 @@
                         <p class="my-0">Total:</p>
                     </div>
                     <div class="col-3">
-                        <p class="my-0">${{ subtotal|floatformat:2 }}</p>
-                        <p class="my-0">${{ shipping|floatformat:2 }}</p>
-                        <p class="my-0"><strong>${{ total_amount|floatformat:2 }}</strong></p>
+                        <p class="my-0">£{{ subtotal|floatformat:2 }}</p>
+                        <p class="my-0">£{{ shipping|floatformat:2 }}</p>
+                        <p class="my-0"><strong>£{{ total_amount|floatformat:2 }}</strong></p>
                     </div>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                             <span class="icon">
                                 <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
                             </span>
-                            <span>Your card will be charged <strong>${{ total_amount|floatformat:2 }}</strong></span>
+                            <span>Your card will be charged <strong>£{{ total_amount|floatformat:2 }}</strong></span>
                         </p>
                     </div>
                 </form>
