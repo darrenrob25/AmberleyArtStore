@@ -139,7 +139,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']  # Using Path for consistency
+STATICFILES_DIRS = [BASE_DIR / 'static',
+                    BASE_DIR / 'checkout/static',
+                    ]  # Using Path for consistency
 
 # Media files (user uploaded files)
 MEDIA_URL = '/media/'

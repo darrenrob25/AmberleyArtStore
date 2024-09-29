@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models import Sum
 from django.conf import settings
 from products.models import Product
+from django_countries.fields import CountryField
 
 class PurchaseOrder(models.Model):
     order_id = models.CharField(max_length=32, null=False, editable=False)
