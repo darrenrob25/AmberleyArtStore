@@ -10,7 +10,7 @@ class PurchaseOrder(models.Model):
     customer_name = models.CharField(max_length=50, null=False, blank=False)
     customer_email = models.EmailField(max_length=254, null=False, blank=False)
     contact_number = models.CharField(max_length=20, null=False, blank=False)
-    delivery_country = models.CharField(max_length=40, null=False, blank=False)
+    delivery_country = CountryField(blank_label='Country *', null=False, blank=False)
     postal_code = models.CharField(max_length=20, null=True, blank=True)
     city = models.CharField(max_length=40, null=False, blank=False)
     address_line1 = models.CharField(max_length=80, null=False, blank=False)
