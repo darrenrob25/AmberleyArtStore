@@ -18,12 +18,12 @@ class UserProfile(models.Model):
     default_address_line2 = models.CharField(max_length=80, null=True, blank=True)
     default_state = models.CharField(max_length=80, null=True, blank=True)
 
-    def __Str_(self):
-        return self.user.username
+    def __str__(self):
+        return self.default_user.username
 
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
+        UserProfile.objects.create(default_user=instance)
     # Existing users: just save the profile
     instance.userprofile.save()

@@ -26,7 +26,7 @@ def checkout(request):
 
     product_count = sum(item['quantity'] for item in basket_items)
     subtotal = sum(item['product'].price * item['quantity'] for item in basket_items)
-    shipping = 0  # Set your shipping logic here
+    shipping = 0 
     total_amount = subtotal + shipping
 
     # Debugging: print the public key and client secret
