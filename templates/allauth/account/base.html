@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+<html>
+  <body>
+    {% block body %}
+
+    {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <!-- This block renders the content of the login form -->
+    {% block inner_content %}
+    {% endblock inner_content %}
+
+    {% endblock body %}
+    
+    {% block extra_body %}
+    {% endblock extra_body %}
+  </body>
+</html>
