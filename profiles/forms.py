@@ -1,5 +1,6 @@
-from django import forms
-from .models import PurchaseOrder
+from django import forms 
+from .models import UserProfile
+''' from .models import PurchaseOrder '''
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
