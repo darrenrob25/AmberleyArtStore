@@ -1,0 +1,1 @@
+web: gunicorn amberley_artstore.wsgi:application
