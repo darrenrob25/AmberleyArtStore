@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.conf import settings
 from .forms import PurchaseOrderForm
-from .models import PurchaseOrder
+from .models import PurchaseOrder, OrderItem  # Make sure OrderLineItem is imported
 from products.models import Product
 from basket.contexts import basket_contents  
 import stripe
@@ -35,10 +35,16 @@ def checkout(request):
         if purchase_order_form.is_valid():
             purchase_order = purchase_order_form.save()
 
+            # Process each product in the basket
             for product_id, quantity in basket.items():
                 try:
                     product = Product.objects.get(id=product_id)
-                    # You may need to create an OrderLineItem model for this
+                    order_item = OrderItem(
+                        order=purchase_order,
+                        product=product,
+                        quantity=quantity
+                    )
+                    order_item.save()
                 except Product.DoesNotExist:
                     messages.error(request, (
                         "One of the products in your basket wasn't found in our database. "
@@ -51,7 +57,7 @@ def checkout(request):
             messages.success(request, f'Order successfully processed! Your order number is {purchase_order.id}. A confirmation email will be sent to {purchase_order.customer_email}.')
             return redirect(reverse('checkout_success', args=[purchase_order.id]))
         else:
-            messages.error(request, 'There was an error with your form. Please double check your information.')
+            messages.error(request, 'There was an error with your form. Please double-check your information.')
 
     else:
         basket = request.session.get('basket', {})
@@ -80,11 +86,11 @@ def checkout(request):
 
     context = {
         'purchase_order_form': purchase_order_form,
-        'basket_items': current_basket['items'],
-        'product_count': current_basket['total_count'],
-        'subtotal': current_basket['subtotal'],
-        'shipping': 0,
-        'total_amount': total_amount,
+        'basket_items': current_basket['basket_items'],  # Use the correct key
+        'product_count': current_basket['item_count'],  # Use item_count for the number of products
+        'subtotal': current_basket['total_amount'],  # Use total_amount as subtotal
+        'shipping': current_basket['delivery_cost'],  # Use delivery_cost if applicable
+        'total_amount': current_basket['grand_total'],  # Use grand_total for final amount
         'stripe_public_key': stripe_public_key,
         'client_secret': client_secret
     }
