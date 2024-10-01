@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.conf import settings
 from .forms import PurchaseOrderForm
-from .models import PurchaseOrder, OrderItem  # Make sure OrderLineItem is imported
+from .models import PurchaseOrder, OrderItem
 from products.models import Product
-from basket.contexts import basket_contents  
+from basket.contexts import basket_contents
 import stripe
 
 def checkout(request):
@@ -34,65 +34,54 @@ def checkout(request):
         
         if purchase_order_form.is_valid():
             purchase_order = purchase_order_form.save()
-
-            # Process each product in the basket
             for product_id, quantity in basket.items():
                 try:
                     product = Product.objects.get(id=product_id)
-                    order_item = OrderItem(
-                        order=purchase_order,
-                        product=product,
-                        quantity=quantity
-                    )
+                    order_item = OrderItem(order=purchase_order, product=product, quantity=quantity)
                     order_item.save()
                 except Product.DoesNotExist:
                     messages.error(request, (
                         "One of the products in your basket wasn't found in our database. "
-                        "Please call us for assistance!")
-                    )
-                    purchase_order.delete()  
+                        "Please call us for assistance!"))
+                    purchase_order.delete()
                     return redirect(reverse('products'))
 
             del request.session['basket']
             messages.success(request, f'Order successfully processed! Your order number is {purchase_order.id}. A confirmation email will be sent to {purchase_order.customer_email}.')
             return redirect(reverse('checkout_success', args=[purchase_order.id]))
-        else:
-            messages.error(request, 'There was an error with your form. Please double-check your information.')
 
-    else:
-        basket = request.session.get('basket', {})
-        if not basket:
-            messages.error(request, "Your shopping basket is currently empty.")
-            return redirect(reverse('products'))
+        messages.error(request, 'There was an error with your form. Please double-check your information.')
 
-        current_basket = basket_contents(request)
-        total_amount = current_basket['total_amount']
-        stripe_total = round(total_amount * 100)
+    basket = request.session.get('basket', {})
+    if not basket:
+        messages.error(request, "Your shopping basket is currently empty.")
+        return redirect(reverse('products'))
 
-        try:
-            intent = stripe.PaymentIntent.create(
-                amount=stripe_total,
-                currency=settings.STRIPE_CURRENCY
-            )
-            client_secret = intent['client_secret']
-        except stripe.error.StripeError as e:
-            messages.error(request, f"Stripe error occurred: {e.user_message}")
-            return redirect(reverse('products'))
-        except Exception as e:
-            messages.error(request, f"An unexpected error occurred: {str(e)}")
-            return redirect(reverse('products'))
+    current_basket = basket_contents(request)
+    total_amount = current_basket['total_amount']
+    stripe_total = round(total_amount * 100)
 
-        purchase_order_form = PurchaseOrderForm()
+    try:
+        intent = stripe.PaymentIntent.create(amount=stripe_total, currency=settings.STRIPE_CURRENCY)
+        client_secret = intent['client_secret']
+    except stripe.error.StripeError as e:
+        messages.error(request, f"Stripe error occurred: {e.user_message}")
+        return redirect(reverse('products'))
+    except Exception as e:
+        messages.error(request, f"An unexpected error occurred: {str(e)}")
+        return redirect(reverse('products'))
+
+    purchase_order_form = PurchaseOrderForm()
 
     context = {
         'purchase_order_form': purchase_order_form,
-        'basket_items': current_basket['basket_items'],  # Use the correct key
-        'product_count': current_basket['item_count'],  # Use item_count for the number of products
-        'subtotal': current_basket['total_amount'],  # Use total_amount as subtotal
-        'shipping': current_basket['delivery_cost'],  # Use delivery_cost if applicable
-        'total_amount': current_basket['grand_total'],  # Use grand_total for final amount
+        'basket_items': current_basket['basket_items'],
+        'product_count': current_basket['item_count'],
+        'subtotal': current_basket['total_amount'],
+        'shipping': current_basket['delivery_cost'],
+        'total_amount': current_basket['grand_total'],
         'stripe_public_key': stripe_public_key,
-        'client_secret': client_secret
+        'client_secret': client_secret,
     }
 
     return render(request, 'checkout/checkout.html', context)
@@ -104,9 +93,6 @@ def checkout_success(request, order_number):
     if 'basket' in request.session:
         del request.session['basket']
 
-    template = 'checkout/checkout_success.html'
-    context = {
-        'order': order,
-    }
+    context = {'order': order}
 
-    return render(request, template, context)
+    return render(request, 'checkout/checkout_success.html', context)
