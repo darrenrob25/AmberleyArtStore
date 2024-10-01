@@ -32,6 +32,7 @@ SECRET_KEY = 'django-insecure-h6u(nc8fo72yj_f9c3=fni=y5s-bvh74k_=o-n7y*y#mw2t_%9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+'''hosts'''
 ALLOWED_HOSTS = [
     '8000-darrenrob25-amberleyart-gll9luvt6f3.ws-eu116.gitpod.io',
     'amberley-art-store-fa04ced04eb7.herokuapp.com'
