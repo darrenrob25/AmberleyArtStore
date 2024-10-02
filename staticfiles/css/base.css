@@ -1,0 +1,481 @@
+body{
+    font-family: poppins;
+}
+
+h1{
+    padding-top: 50px;
+    font-family: Oswald;
+    margin-bottom: 40px;
+}
+
+.home-pic{
+    border-radius: 8px;
+    border: solid 1px black;
+}
+
+.home-col{
+    padding-top: 32px;
+    padding-bottom: 32px;
+    overflow: hidden;
+}
+.home-col h2{
+    padding-top: 115px;
+}
+
+.home-col p {
+    padding-top: 20px;
+}
+
+h2{
+    text-align: center;
+    font-family: Oswald;
+}
+
+p{
+    text-align: center;
+}
+
+.banner-col{
+    width:100%;
+    height: 375px;
+    position: relative;
+    overflow: hidden;
+    padding-top: 40px;
+    padding-bottom: 50px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.banner-pic{
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    right: -9999px;
+    bottom: -9999px;
+    margin: auto;
+}
+
+.action-statement {
+    padding-top: 75px;
+    color: white;
+    position: relative;
+    z-index: 999;
+}
+
+.action-button{
+    z-index: 998;
+    position: relative;
+    margin-left: 45%;
+    margin-top: 26px;
+}
+
+.product-image-container {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.product-image {
+    width: 100%; 
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-details-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: 80px;
+}
+
+.product-card-detail {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.product-image-detail {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+
+.product-details-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.product-name-detail {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-details-content .lead {
+    font-size: 1.25rem;
+    margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+    .product-card-detail {
+        margin: 20px;
+    }
+}
+
+.add-review-container,
+.reviews-section {
+    margin-top: 2rem;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.review-heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.review-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.review-form input,
+.review-form textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+.review-form input:focus,
+.review-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+.btn-submit-review {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+    align-self: flex-start;
+    text-align: center;
+}
+
+.btn-submit-review:hover {
+    background-color: #0056b3;
+}
+
+.btn-submit-review:active {
+    background-color: #00408a;
+}
+
+footer {
+    margin-top:20px;
+}
+
+.edit-review-container {
+    margin-top: 2rem;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.edit-review-heading {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333;
+}
+
+.edit-review-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-review-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.edit-review-form input,
+.edit-review-form textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+.edit-review-form input:focus,
+.edit-review-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+.btn-update-review {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+    align-self: flex-start;
+}
+
+.btn-update-review:hover {
+    background-color: #0056b3;
+}
+
+.btn-update-review:active {
+    background-color: #00408a;
+}
+
+.btn-cancel-review {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+    align-self: flex-start;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-cancel-review:hover {
+    background-color: #5a6268;
+}
+
+.btn-cancel-review:active {
+    background-color: #4e555b;
+}
+
+.category-filter-form {
+    margin-bottom: 20px;
+}
+
+.category-filter-form .form-select {
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.category-filter-form .form-select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+.update-link,
+.remove-link {
+    cursor: pointer;
+}
+
+.popup-container {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.popup-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.success {
+    background-color: #28a745;  /* Green */
+}
+
+.error {
+    background-color: #dc3545;  /* Red */
+}
+
+/* CSS for checkout template */
+/* General Styling for Checkout Page */
+.checkout-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.legend-label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    position: absolute;
+    top: -15px;
+    left: 1rem;
+    background-color: #fff;
+    padding: 0 8px;
+    color: #333;
+}
+
+fieldset input,
+fieldset select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.form-check-label a {
+    color: #17a2b8;
+}
+
+.form-check-label a:hover {
+    text-decoration: underline;
+}
+
+/* Styling for Buttons */
+.btn-black {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-black:hover {
+    background-color: #000;
+}
+
+.btn-outline-black {
+    background-color: #fff;
+    color: #333;
+    border: 2px solid #333;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-black:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Order Summary Section */
+.order-summary {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.order-summary p {
+    margin: 0;
+    color: #6c757d;
+}
+
+.order-summary .text-black {
+    font-weight: bold;
+    color: #333;
+}
+
+.order-summary img {
+    border-radius: 4px;
+    max-width: 100%;
+    height: auto;
+}
+
+.order-summary .text-right {
+    text-align: right;
+}
+
+.order-summary .row {
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.order-summary .row:last-child {
+    margin-bottom: 0;
+}
+
+/* Stripe Payment Element Styling */
+#card-element {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+#card-errors {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .order-summary .col-2,
+    .order-summary .col-3,
+    .order-summary .col-7 {
+        width: 100%;
+        text-align: center;
+    }
+
+    .order-summary .text-right {
+        text-align: center;
+    }
+
+    .btn-black,
+    .btn-outline-black {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}
