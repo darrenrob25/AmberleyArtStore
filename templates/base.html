@@ -48,7 +48,7 @@
               {% if request.user.is_authenticated %}
                 {% if request.user.is_superuser %}
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Manage Products</a>
+                    <a class="nav-link" href="{% url 'product_list' %}">Manage Products</a>
                   </li>
                 {% endif %}
                 <li class="nav-item">
