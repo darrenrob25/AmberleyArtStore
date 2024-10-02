@@ -19,7 +19,21 @@
     </div>
     <div class="col-12 col-lg-6">
         <h4>Past Orders</h4>
-        {{ orders }}
+        {% if orders %}
+            <ul class="list-group mt-3">
+                {% for order in orders %}
+                    <li class="list-group-item">
+                        <p>Order ID: <strong>{{ order.order_id }}</strong></p>
+                        <p>Total Amount: £{{ order.total_amount }}</p>
+                        <p>Status: {{ order.get_status_display }}</p>
+                        <p>Date: {{ order.order_date|date:"D d M Y" }}</p>
+                        <a href="{% url 'order_history' order.order_id %}" class="btn btn-link">View Order Details</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No past orders found.</p>
+        {% endif %}
     </div>
 </div>
 {{ profile }}
