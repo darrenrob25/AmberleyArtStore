@@ -1,7 +1,55 @@
 image:
   file: .gitpod.dockerfile
 tasks:
+  - init: |
+      . ${GITPOD_REPO_ROOT}/.vscode/init_tasks.sh
+      # Install Python 3.10
+      sudo apt-get update
+      sudo apt-get install -y python3.10 python3.10-venv python3.10-dev
+      # Set Python 3.10 as the default python3
+      sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+      # Verify installation
+      python3 --version
+    command: /home/gitpod/.pg_ctl/bin/pg_start > /dev/null
+  - command: . ${GITPOD_REPO_ROOT}/.vscode/uptime.sh &
+vscode:
+  extensions:
+    - ms-python.python
+    - formulahendry.auto-close-tag
+    - eventyret.bootstrap-4-cdn-snippet
+    - hookyqr.beautify
+    - matt-rudge.auto-open-preview-panel
+    - ms-toolsai.jupyter
+    - ms-toolsai.jupyter-keymap
+    - ms-toolsai.jupyter-renderersimage:
+  file: .gitpod.dockerfile
+tasks:
   - init: . ${GITPOD_REPO_ROOT}/.vscode/init_tasks.sh
+    command: /home/gitpod/.pg_ctl/bin/pg_start > /dev/null
+  - command: . ${GITPOD_REPO_ROOT}/.vscode/uptime.sh &
+vscode:
+  extensions:
+    - ms-python.python
+    - formulahendry.auto-close-tag
+    - eventyret.bootstrap-4-cdn-snippet
+    - hookyqr.beautify
+    - matt-rudge.auto-open-preview-panel
+    - ms-toolsai.jupyter
+    - ms-toolsai.jupyter-keymap
+    - ms-toolsai.jupyter-renderers
+
+image:
+  file: .gitpod.dockerfile
+tasks:
+  - init: |
+      . ${GITPOD_REPO_ROOT}/.vscode/init_tasks.sh
+      # Install Python 3.10
+      sudo apt-get update
+      sudo apt-get install -y python3.10 python3.10-venv python3.10-dev
+      # Set Python 3.10 as the default python3
+      sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+      # Verify installation
+      python3 --version
     command: /home/gitpod/.pg_ctl/bin/pg_start > /dev/null
   - command: . ${GITPOD_REPO_ROOT}/.vscode/uptime.sh &
 vscode:
