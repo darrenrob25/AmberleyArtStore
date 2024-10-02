@@ -6,8 +6,9 @@
     https://stripe.com/docs/stripe-js
 */
 
+// Retrieve the Stripe public key and client secret
 var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
-var clientSecret = $('#id_client_secret').text().slice(1, -1);
+var clientSecret = JSON.parse($('#id_client_secret').text()); // Correctly parse the JSON
 
 // Initialize Stripe
 var stripe = Stripe(stripePublicKey);
@@ -41,7 +42,7 @@ card.addEventListener('change', function (event) {
             <i class="fa fa-window-close" aria-hidden="true"></i>
         </span>
         <span>${event.error.message}</span>
-        `
+        `;
         $(errorDiv).html(html);
     } else {
         errorDiv.textContent = '';

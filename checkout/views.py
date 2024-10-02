@@ -15,7 +15,7 @@ def checkout(request):
         basket = request.session.get('basket', {})
         
         if not basket:
-            messages.error(request, "Your shopping basket is currently empty.")
+            messages.error(request, "Your shopping basket is empty.")
             return redirect(reverse('products'))
 
         form_data = {
@@ -29,46 +29,64 @@ def checkout(request):
             'address_line2': request.POST.get('address_line2', ''),
             'state': request.POST['state'],
         }
-        
+
         purchase_order_form = PurchaseOrderForm(form_data)
-        
+
         if purchase_order_form.is_valid():
-            purchase_order = purchase_order_form.save()
+            purchase_order = purchase_order_form.save(commit=False)
+            total_amount = basket_contents(request)['grand_total']
+            purchase_order.total_amount = total_amount
+            purchase_order.save()
+
+            # Create OrderItems
             for product_id, quantity in basket.items():
                 try:
                     product = Product.objects.get(id=product_id)
                     order_item = OrderItem(order=purchase_order, product=product, quantity=quantity)
                     order_item.save()
                 except Product.DoesNotExist:
-                    messages.error(request, (
-                        "One of the products in your basket wasn't found in our database. "
-                        "Please call us for assistance!"))
+                    messages.error(request, "One of the products wasn't found.")
                     purchase_order.delete()
                     return redirect(reverse('products'))
 
+            # Stripe payment process
+            try:
+                stripe_total = round(total_amount * 100)  # Stripe expects amounts in pence
+                intent = stripe.PaymentIntent.create(
+                    amount=stripe_total,
+                    currency=settings.STRIPE_CURRENCY,
+                    metadata={
+                        'order_id': purchase_order.order_id,
+                        'customer_email': purchase_order.customer_email,
+                    },
+                )
+                request.session['purchase_order_id'] = purchase_order.order_id
+            except stripe.error.StripeError as e:
+                messages.error(request, f"Stripe error: {e.user_message}")
+                return redirect(reverse('checkout'))
+
+            # Clean basket and return to success page
             del request.session['basket']
-            messages.success(request, f'Order successfully processed! Your order number is {purchase_order.id}. A confirmation email will be sent to {purchase_order.customer_email}.')
-            return redirect(reverse('checkout_success', args=[purchase_order.id]))
+            return redirect(reverse('checkout_success', args=[purchase_order.order_id]))
 
-        messages.error(request, 'There was an error with your form. Please double-check your information.')
-
+    # If GET request, show form
     basket = request.session.get('basket', {})
     if not basket:
-        messages.error(request, "Your shopping basket is currently empty.")
+        messages.error(request, "Your shopping basket is empty.")
         return redirect(reverse('products'))
 
     current_basket = basket_contents(request)
-    total_amount = current_basket['total_amount']
+    total_amount = current_basket['grand_total']
     stripe_total = round(total_amount * 100)
 
     try:
-        intent = stripe.PaymentIntent.create(amount=stripe_total, currency=settings.STRIPE_CURRENCY)
+        intent = stripe.PaymentIntent.create(
+            amount=stripe_total,
+            currency=settings.STRIPE_CURRENCY
+        )
         client_secret = intent['client_secret']
     except stripe.error.StripeError as e:
-        messages.error(request, f"Stripe error occurred: {e.user_message}")
-        return redirect(reverse('products'))
-    except Exception as e:
-        messages.error(request, f"An unexpected error occurred: {str(e)}")
+        messages.error(request, f"Stripe error: {e.user_message}")
         return redirect(reverse('products'))
 
     purchase_order_form = PurchaseOrderForm()
@@ -87,12 +105,13 @@ def checkout(request):
     return render(request, 'checkout/checkout.html', context)
 
 def checkout_success(request, order_number):
-    order = get_object_or_404(PurchaseOrder, id=order_number)
-    messages.success(request, f'Order successfully processed! Your order number is {order_number}. A confirmation email will be sent to {order.customer_email}.')
+    """Handle successful checkouts"""
+    order = get_object_or_404(PurchaseOrder, order_id=order_number)
 
-    if 'basket' in request.session:
-        del request.session['basket']
-
-    context = {'order': order}
+    messages.success(request, f'Order successfully processed! Your order number is {order_number}.')
+    
+    context = {
+        'order': order,
+    }
 
     return render(request, 'checkout/checkout_success.html', context)
